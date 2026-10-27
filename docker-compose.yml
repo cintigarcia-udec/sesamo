@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: sesamo_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: sesamo
+      MYSQL_USER: sesamo_user
+      MYSQL_PASSWORD: sesamo_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - sesamo_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./sesamoBack
+      dockerfile: Dockerfile
+    container_name: sesamo_backend
+    restart: always
+    environment:
+      - DB_USER=sesamo_user
+      - DB_PASSWORD=sesamo_password
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=sesamo
+      - ENVIRONMENT=development
+      - SECRET_KEY=34321234567890123456789012345678
+      - ENCRYPTION_KEY=napJajUktb71sVvFceuAkmX58RL7s5ZiMhwLgXeTK4w=
+      - ALLOWED_ORIGINS=*
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ./sesamoWeb
+      dockerfile: Dockerfile
+    container_name: sesamo_web
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  sesamo_db_data:
