@@ -8,6 +8,11 @@ class Settings(BaseSettings):
 
     # Configuración de la base de datos
     mysql_url: str = "mysql+pymysql://user:pass@host/db"
+    db_user: Optional[str] = None
+    db_password: Optional[str] = None
+    db_host: Optional[str] = None
+    db_port: Optional[int] = None
+    db_name: Optional[str] = None
     
     # Localización de logs
     logs_path: str = "./project.log"
@@ -27,5 +32,14 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 # 24 hours
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
+    def model_post_init(self, __context):
+        if self.db_user and self.db_host:
+            port = self.db_port or 3306
+            name = self.db_name or "sesamo"
+            pwd = f":{self.db_password}" if self.db_password else ""
+            self.mysql_url = f"mysql+pymysql://{self.db_user}{pwd}@{self.db_host}:{port}/{name}"
+        if isinstance(self.ENCRYPTION_KEY, str):
+            self.ENCRYPTION_KEY = self.ENCRYPTION_KEY.encode('utf-8')
 
 settings = Settings()

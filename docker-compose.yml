@@ -32,6 +32,7 @@ services:
       - DB_HOST=db
       - DB_PORT=3306
       - DB_NAME=sesamo
+      - MYSQL_URL=mysql+pymysql://sesamo_user:sesamo_password@db:3306/sesamo
       - ENVIRONMENT=development
       - SECRET_KEY=34321234567890123456789012345678
       - ENCRYPTION_KEY=napJajUktb71sVvFceuAkmX58RL7s5ZiMhwLgXeTK4w=
