@@ -1,0 +1,53 @@
+# ==========================================
+# Plan de Acción y Notas Internas (Privado)
+# ==========================================
+PLAN_ACCION.md
+*PLAN_ACCION*
+plan_accion.md
+*plan_accion*
+
+# ==========================================
+# Secretos y Entornos (Nunca commitear)
+# ==========================================
+.env
+.env.*
+!.env.example
+*.env
+
+# ==========================================
+# Archivos de Sistema Operativo y Basura
+# ==========================================
+.DS_Store
+Thumbs.db
+__MACOSX/
+
+# ==========================================
+# Python (sesamoBack)
+# ==========================================
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+*.log
+logs/
+
+# ==========================================
+# NodeJS / React (sesamoWeb & sesamoMobile)
+# ==========================================
+node_modules/
+dist/
+build/
+*.tsbuildinfo
+
+# ==========================================
+# Expo / React Native (sesamoMobile)
+# ==========================================
+.expo/
+web-build/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+/ios/
+/android/
